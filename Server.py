@@ -51,6 +51,7 @@ def handle_client(c_socket):
                 with lock:
                     done = True
                     solution = response.split(":")[1]
+                    print(f"found the solution {solution}")
                 c_socket.sendall(b"STOP")
                 break
             elif response == "NOT_DONE":
