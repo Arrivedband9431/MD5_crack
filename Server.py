@@ -1,6 +1,13 @@
 import socket
 import threading
+import logging
 
+logging.basicConfig(
+    filename='server.log',
+    filemode='w',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 HOST = '0.0.0.0'
 PORT = 65432
@@ -18,6 +25,7 @@ def start_server():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind((HOST, PORT))
     server.listen(5)
+    logging.info(f"the server has started successfully on port: {PORT}")
     print(f"started server port: {PORT} ")
     while not done:
         try:
@@ -51,10 +59,12 @@ def handle_client(c_socket):
                 with lock:
                     done = True
                     solution = response.split(":")[1]
+                    logging.info(f"found the solution {solution}")
                     print(f"found the solution {solution}")
                 c_socket.sendall(b"STOP")
                 break
             elif response == "NOT_DONE":
+                logging.info("not the number moving one")
                 print("moving on")
                 if done:
                     c_socket.sendall(b"STOP")
@@ -67,8 +77,11 @@ def handle_client(c_socket):
             if done and not solution:
                 c_socket.sendall(b"STOP")
     except Exception as e:
+        logging.error(f"Error: {e}")
         print(f"Error: {e}")
     finally:
+
+        logging.warning("closing connection")
         c_socket.close()
 
 
