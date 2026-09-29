@@ -15,10 +15,16 @@ target_hash = "EC9C0F7EDCC18A98B1F31853B1813301".strip().lower()
 
 # target_hash = "e665866de8ec4a64139aaa1d6ef85206"
 # 3735928559 is the correct number
+
 done = False
 solution = None
-work_load_size = 10000
-current_min = 3730000000#1
+# work_load_size = 10000
+
+# current_min = 3730000000#1
+work_load_size = 500000
+#current_min = 1#1
+current_min = 3700000000
+#             3735928559
 lock = threading.Lock()
 
 def start_server():
